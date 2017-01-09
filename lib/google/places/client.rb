@@ -22,6 +22,14 @@ module Google
         )
       end
 
+      def query_autocomplete(input, options = {})
+        options = options.with_indifferent_access
+        self.class.get(
+          "/queryautocomplete/json",
+          { query: build_request_parameters(input, options) }
+        )
+      end
+
       private
 
         def build_request_parameters(input, options = {})
