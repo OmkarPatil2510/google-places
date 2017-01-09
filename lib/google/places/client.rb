@@ -49,6 +49,14 @@ module Google
         )
       end
 
+      def place_details(place_id, options = {})
+        options = options.with_indifferent_access
+        self.class.get(
+          "/details/json",
+          { query: build_details_request_parameters(place_id, options) }
+        )
+      end
+
       private
 
         def build_request_parameters(input, options = {})
@@ -64,6 +72,11 @@ module Google
         def build_add_request_body(name, location, types, options = {})
           required_params = { name: name, location: location, types: types }
           required_params.merge(options).to_json
+        end
+
+        def build_details_request_parameters(place_id, options = {})
+          required_params = { key: api_key, placeid: place_id }
+          required_params.merge(options)
         end
 
     end
