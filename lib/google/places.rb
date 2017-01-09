@@ -1,8 +1,7 @@
-require "google/places/version"
-require "httparty"
+require_relative "places/version"
+require_relative "places/client"
 
 module Google
   module Places
-    # Your code goes here...
   end
 end
