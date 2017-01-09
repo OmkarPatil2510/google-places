@@ -57,6 +57,30 @@ module Google
         )
       end
 
+      def nearby_search(location, radius, options = {})
+        options = options.with_indifferent_access
+        self.class.get(
+          "/nearbysearch/json",
+          { query: build_search_request_parameters(location, radius, options) }
+        )
+      end
+
+      def text_search(query, options = {})
+        options = options.with_indifferent_access
+        self.class.get(
+          "/textsearch/json",
+          { query: build_text_search_request_parameters(query, options) }
+        )
+      end
+
+      def radar_search(location, radius, options = {})
+        options = options.with_indifferent_access
+        self.class.get(
+          "/radarsearch/json",
+          { query: build_search_request_parameters(location, radius, options) }
+        )
+      end
+
       private
 
         def build_request_parameters(input, options = {})
@@ -76,6 +100,16 @@ module Google
 
         def build_details_request_parameters(place_id, options = {})
           required_params = { key: api_key, placeid: place_id }
+          required_params.merge(options)
+        end
+
+        def build_search_request_parameters(location, radius, options = {})
+          required_params = { key: api_key, location: location, radius: radius }
+          required_params.merge(options)
+        end
+
+        def build_text_search_request_parameters(query, options = {})
+          required_params = { key: api_key, query: query }
           required_params.merge(options)
         end
 
