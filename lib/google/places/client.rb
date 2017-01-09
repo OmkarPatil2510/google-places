@@ -38,6 +38,17 @@ module Google
         )
       end
 
+      def place_add(name, location, types, options = {})
+        options = options.with_indifferent_access
+        self.class.post(
+          "/add/json",
+          {
+            query: { key: api_key },
+            body: build_add_request_body(name, location, types, options)
+          }
+        )
+      end
+
       private
 
         def build_request_parameters(input, options = {})
@@ -48,6 +59,11 @@ module Google
         def build_photo_request_parameters(photo_reference, options = {})
           required_params = { key: api_key, photoreference: photo_reference }
           required_params.merge(options)
+        end
+
+        def build_add_request_body(name, location, types, options = {})
+          required_params = { name: name, location: location, types: types }
+          required_params.merge(options).to_json
         end
 
     end
