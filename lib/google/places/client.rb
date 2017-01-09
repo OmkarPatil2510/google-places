@@ -30,10 +30,23 @@ module Google
         )
       end
 
+      def place_photos(photo_reference, options = {})
+        options = options.with_indifferent_access
+        self.class.get(
+          "/photo",
+          { query: build_photo_request_parameters(photo_reference, options) }
+        )
+      end
+
       private
 
         def build_request_parameters(input, options = {})
           required_params = { key: api_key, input: input }
+          required_params.merge(options)
+        end
+
+        def build_photo_request_parameters(photo_reference, options = {})
+          required_params = { key: api_key, photoreference: photo_reference }
           required_params.merge(options)
         end
 
