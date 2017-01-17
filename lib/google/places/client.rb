@@ -64,6 +64,15 @@ module Google
           { query: build_search_request_parameters(location, radius, options) }
         )
       end
+      alias :nearby_search_with_radius, :nearby_search
+
+      def nearby_search_with_rankby(location, rankby, options = {})
+        options = options.with_indifferent_access
+        self.class.get(
+          "/nearbysearch/json",
+          { query: build_search_rankby_request_parameters(location, radius, options) }
+        )
+      end
 
       def text_search(query, options = {})
         options = options.with_indifferent_access
@@ -105,6 +114,11 @@ module Google
 
         def build_search_request_parameters(location, radius, options = {})
           required_params = { key: api_key, location: location, radius: radius }
+          required_params.merge(options)
+        end
+
+        def build_search_rankby_request_parameters(location, rankby, options = {})
+          required_params = { key: api_key, location: location, rankby: rankby }
           required_params.merge(options)
         end
 
